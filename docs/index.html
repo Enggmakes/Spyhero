@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SpyHero — AI Prompt Enhancer for Windows</title>
+  <title>SpyHero — Premium AI Prompt Enhancer for Windows</title>
   <meta name="description" content="SpyHero is a free, privacy-first Windows desktop utility that instantly enhances any text or prompt using your own AI API keys. No subscriptions. No cloud sync. Total control." />
   <meta name="keywords" content="AI prompt enhancer, Windows tray app, BYOK, Gemini, OpenAI, Claude, prompt engineering, free AI tool" />
   <meta property="og:title" content="SpyHero — AI Prompt Enhancer" />
@@ -11,24 +11,24 @@
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --purple: #B1B2FF;
-      --purple-light: #AAC4FF;
-      --purple-dim: rgba(177,178,255,0.15);
-      --purple-glow: rgba(177,178,255,0.35);
-      --bg: #080810;
-      --bg-card: rgba(255,255,255,0.03);
-      --bg-card-hover: rgba(255,255,255,0.06);
-      --border: rgba(255,255,255,0.07);
-      --border-hover: rgba(255,255,255,0.14);
-      --text: #EEF1FF;
-      --text-muted: #D2DAFF;
-      --text-dim: #4a4a6a;
-      --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --purple-primary: #B1B2FF;
+      --blue-secondary: #AAC4FF;
+      --grey-muted: #D2DAFF;
+      --text-high: #EEF1FF;
+      --bg: #07070F;
+      --bg-card: rgba(177, 178, 255, 0.02);
+      --bg-card-hover: rgba(177, 178, 255, 0.06);
+      --border: rgba(177, 178, 255, 0.08);
+      --border-hover: rgba(177, 178, 255, 0.2);
+      --purple-dim: rgba(177, 178, 255, 0.1);
+      --purple-glow: rgba(177, 178, 255, 0.25);
+      --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       --mono: 'JetBrains Mono', monospace;
     }
 
@@ -37,7 +37,7 @@
     body {
       font-family: var(--font);
       background: var(--bg);
-      color: var(--text);
+      color: var(--text-high);
       line-height: 1.7;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -46,23 +46,23 @@
     /* ─── Scrollbar ─── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(177,178,255,0.4); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: rgba(177, 178, 255, 0.3); border-radius: 3px; }
 
     /* ─── Noise overlay ─── */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-      opacity: 0.6;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+      opacity: 0.7;
     }
 
     /* ─── Ambient orbs ─── */
     .orb {
-      position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0;
+      position: fixed; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: 0;
     }
-    .orb-1 { width: 600px; height: 600px; background: rgba(177,178,255,0.12); top: -200px; right: -150px; animation: drift 18s ease-in-out infinite alternate; }
-    .orb-2 { width: 400px; height: 400px; background: rgba(170,196,255,0.08); bottom: 10%; left: -100px; animation: drift 24s ease-in-out infinite alternate-reverse; }
-    .orb-3 { width: 300px; height: 300px; background: rgba(177,178,255,0.08); top: 50%; left: 50%; animation: drift 20s ease-in-out infinite alternate; }
+    .orb-1 { width: 600px; height: 600px; background: rgba(177, 178, 255, 0.12); top: -250px; right: -150px; animation: drift 18s ease-in-out infinite alternate; }
+    .orb-2 { width: 450px; height: 450px; background: rgba(170, 196, 255, 0.06); bottom: 10%; left: -100px; animation: drift 24s ease-in-out infinite alternate-reverse; }
+    .orb-3 { width: 350px; height: 350px; background: rgba(210, 218, 255, 0.06); top: 40%; right: 10%; animation: drift 20s ease-in-out infinite alternate; }
 
     @keyframes drift {
       from { transform: translate(0, 0) scale(1); }
@@ -71,399 +71,436 @@
 
     /* ─── Nav ─── */
     nav {
-      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-      width: calc(100% - 48px); max-width: 1100px;
-      background: rgba(8,8,16,0.7); border: 1px solid var(--border);
-      border-radius: 16px; backdrop-filter: blur(20px);
-      padding: 0 24px; height: 60px;
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 40px); max-width: 1100px;
+      background: rgba(7, 7, 15, 0.65); border: 1px solid var(--border);
+      border-radius: 20px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      padding: 0 28px; height: 64px;
       display: flex; align-items: center; justify-content: space-between;
-      z-index: 100;
+      z-index: 100; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    nav:hover { border-color: var(--border-hover); box-shadow: 0 8px 32px rgba(177, 178, 255, 0.05); }
+    
     .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 700; font-size: 1rem; letter-spacing: 0.05em;
-      text-decoration: none; color: var(--text);
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 1.05rem; letter-spacing: 0.03em;
+      text-decoration: none; color: var(--text-high);
     }
     .nav-logo-icon {
-      width: 32px; height: 32px; background: var(--purple-dim);
-      border: 1px solid rgba(177,178,255,0.3); border-radius: 8px;
+      width: 34px; height: 34px; background: var(--purple-dim);
+      border: 1px solid rgba(177, 178, 255, 0.25); border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s;
     }
-    .nav-logo-icon svg { width: 18px; height: 18px; fill: var(--purple-light); }
+    .nav-logo:hover .nav-logo-icon { transform: rotate(10deg); }
+    .nav-logo-icon svg { width: 18px; height: 18px; fill: var(--purple-primary); }
     .nav-links { display: flex; align-items: center; gap: 8px; }
     .nav-links a {
-      color: var(--text-muted); text-decoration: none; font-size: 0.875rem;
-      padding: 8px 14px; border-radius: 10px; transition: color 0.2s, background 0.2s;
+      color: var(--grey-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      padding: 8px 16px; border-radius: 10px; transition: all 0.2s;
     }
-    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-links a:hover { color: var(--text-high); background: rgba(255,255,255,0.03); }
+    
     .btn-nav {
-      background: var(--purple); color: #fff; font-weight: 600; font-size: 0.875rem;
-      padding: 8px 18px; border-radius: 10px; text-decoration: none;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 20px rgba(177,178,255,0.3);
+      background: var(--purple-dim); color: var(--purple-primary) !important;
+      border: 1px solid rgba(177, 178, 255, 0.25); font-weight: 600; font-size: 0.875rem;
+      padding: 8px 20px !important; border-radius: 10px; text-decoration: none;
+      transition: all 0.2s;
     }
-    .btn-nav:hover { background: var(--purple-light); transform: translateY(-1px); box-shadow: 0 4px 24px rgba(177,178,255,0.5); }
+    .btn-nav:hover { background: var(--purple-primary); color: #07070F !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(177, 178, 255, 0.3); }
 
     /* ─── Container ─── */
     .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-    section { padding: 100px 0; }
+    section { padding: 120px 0; }
 
     /* ─── Hero ─── */
     #hero {
       min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      text-align: center; padding-top: 140px; padding-bottom: 80px; position: relative;
+      text-align: center; padding-top: 160px; padding-bottom: 80px; position: relative;
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: var(--purple-dim); border: 1px solid rgba(177,178,255,0.3);
-      border-radius: 100px; padding: 6px 16px;
-      font-size: 0.75rem; font-weight: 600; color: var(--purple-light);
-      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px;
-      animation: fadeUp 0.6s ease both;
+      background: var(--purple-dim); border: 1px solid rgba(177, 178, 255, 0.2);
+      border-radius: 100px; padding: 8px 20px;
+      font-size: 0.75rem; font-weight: 600; color: var(--purple-primary);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 32px;
+      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
-    .hero-badge span { width: 6px; height: 6px; background: var(--purple-light); border-radius: 50%; animation: pulse-dot 2s ease infinite; }
-    @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.8); } }
+    .hero-badge span { width: 6px; height: 6px; background: var(--purple-primary); border-radius: 50%; animation: pulse-dot 2s ease infinite; }
+    @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.8); } }
 
     h1 {
-      font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 800; line-height: 1.1;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #ffffff 0%, #AAC4FF 50%, #B1B2FF 100%);
+      font-size: clamp(2.6rem, 6.5vw, 5.2rem); font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #ffffff 10%, var(--grey-muted) 55%, var(--purple-primary) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: fadeUp 0.7s 0.1s ease both;
-      margin-bottom: 12px;
+      animation: fadeUp 0.7s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+      margin-bottom: 20px;
     }
     .hero-tagline {
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: var(--text-muted); font-weight: 400;
-      max-width: 560px; margin: 0 auto 32px;
-      animation: fadeUp 0.7s 0.2s ease both;
+      font-size: clamp(1.15rem, 2.5vw, 1.55rem); color: var(--grey-muted); font-weight: 400;
+      max-width: 620px; margin: 0 auto 36px; line-height: 1.6;
+      animation: fadeUp 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
-    .hero-tagline strong { color: var(--purple-light); font-weight: 600; }
+    .hero-tagline strong { color: var(--purple-primary); font-weight: 600; }
     .hero-desc {
-      font-size: 1rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 44px;
-      line-height: 1.8; animation: fadeUp 0.7s 0.3s ease both;
+      font-size: 1.05rem; color: rgba(210, 218, 255, 0.7); max-width: 680px; margin: 0 auto 48px;
+      line-height: 1.8; animation: fadeUp 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .hero-ctas {
-      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-      animation: fadeUp 0.7s 0.4s ease both;
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .btn-primary {
-      background: var(--purple); color: #fff; font-weight: 700; font-size: 1rem;
-      padding: 14px 32px; border-radius: 14px; text-decoration: none; cursor: pointer;
-      box-shadow: 0 0 40px rgba(177,178,255,0.4); transition: all 0.2s;
+      background: var(--purple-primary); color: #07070F; font-weight: 700; font-size: 1rem;
+      padding: 16px 36px; border-radius: 14px; text-decoration: none; cursor: pointer;
+      box-shadow: 0 4px 30px rgba(177, 178, 255, 0.3); transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 10px; border: none;
     }
-    .btn-primary:hover { background: var(--purple-light); transform: translateY(-2px); box-shadow: 0 8px 40px rgba(177,178,255,0.6); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(177, 178, 255, 0.5); }
+    
     .btn-secondary {
-      background: rgba(255,255,255,0.05); color: var(--text); font-weight: 600; font-size: 1rem;
-      padding: 14px 32px; border-radius: 14px; text-decoration: none; cursor: pointer;
+      background: rgba(255,255,255,0.03); color: var(--text-high); font-weight: 600; font-size: 1rem;
+      padding: 16px 36px; border-radius: 14px; text-decoration: none; cursor: pointer;
       border: 1px solid var(--border); transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 10px;
     }
-    .btn-secondary:hover { background: rgba(255,255,255,0.09); border-color: var(--border-hover); transform: translateY(-2px); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: var(--border-hover); transform: translateY(-2px); }
 
-    /* Pill badges */
     .hero-pills {
-      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-      margin-top: 40px; animation: fadeUp 0.7s 0.5s ease both;
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      margin-top: 48px; animation: fadeUp 0.7s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .pill {
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 100px; padding: 5px 14px;
-      font-size: 0.75rem; color: var(--text-muted); font-family: var(--mono);
+      background: rgba(177, 178, 255, 0.03); border: 1px solid var(--border);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: 0.75rem; color: var(--grey-muted); font-family: var(--mono);
+      font-weight: 500;
     }
 
-    /* Hero window mockup */
+    /* ─── Hero window mockup ─── */
     .hero-mockup {
-      max-width: 680px; margin: 60px auto 0;
-      animation: fadeUp 0.8s 0.6s ease both;
+      max-width: 720px; margin: 80px auto 0;
+      animation: fadeUp 0.8s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+      border-radius: 20px; overflow: hidden;
     }
     .mockup-bar {
-      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-      border-radius: 16px 16px 0 0; padding: 12px 16px;
+      background: rgba(177, 178, 255, 0.04); border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 20px 20px 0 0; padding: 14px 20px;
       display: flex; align-items: center; gap: 8px;
     }
-    .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mockup-dot { width: 11px; height: 11px; border-radius: 50%; }
     .mockup-dot:nth-child(1) { background: #ff5f57; }
     .mockup-dot:nth-child(2) { background: #ffbd2e; }
     .mockup-dot:nth-child(3) { background: #28c840; }
-    .mockup-title { flex: 1; text-align: center; font-size: 0.75rem; color: var(--text-dim); font-family: var(--mono); }
+    .mockup-title { flex: 1; text-align: center; font-size: 0.75rem; color: var(--blue-secondary); font-family: var(--mono); font-weight: 500; letter-spacing: 0.05em; }
+    
     .mockup-body {
-      background: rgba(255,255,255,0.025); border: 1px solid var(--border);
-      border-top: none; border-radius: 0 0 16px 16px;
-      padding: 24px; text-align: left;
+      background: rgba(7, 7, 15, 0.85); border: 1px solid var(--border);
+      border-top: none; border-radius: 0 0 20px 20px;
+      padding: 28px; text-align: left; backdrop-filter: blur(20px);
     }
     .mockup-header-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 14px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
     }
-    .mockup-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em; }
-    .mockup-logo svg { width: 16px; height: 16px; fill: var(--text-muted); }
-    .mockup-tag { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; font-size: 0.65rem; color: var(--text-dim); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; }
-    .mockup-modes { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-    .mockup-mode { padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; cursor: default; }
-    .mockup-mode.active { background: #fff; color: #0a0a14; }
-    .mockup-mode:not(.active) { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-muted); }
+    .mockup-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.08em; color: var(--purple-primary); }
+    .mockup-logo svg { width: 16px; height: 16px; fill: var(--purple-primary); }
+    .mockup-tag { background: var(--purple-dim); border: 1px solid rgba(177, 178, 255, 0.25); border-radius: 6px; padding: 3px 10px; font-size: 0.65rem; color: var(--purple-primary); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+    
+    .mockup-modes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; border-bottom: 1px solid rgba(177,178,255,0.05); padding-bottom: 12px; }
+    .mockup-mode { padding: 6px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.25s; user-select: none; }
+    .mockup-mode.active { background: var(--purple-primary); color: #07070F; box-shadow: 0 4px 12px rgba(177, 178, 255, 0.25); }
+    .mockup-mode:not(.active) { background: rgba(177,178,255,0.03); border: 1px solid var(--border); color: var(--grey-muted); }
+    .mockup-mode:not(.active):hover { border-color: var(--border-hover); color: var(--text-high); }
+    
     .mockup-textarea {
-      background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px;
-      padding: 14px; min-height: 80px; font-size: 0.8rem; color: var(--text-muted);
-      font-family: var(--mono); line-height: 1.6; margin-bottom: 14px;
+      background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px; min-height: 90px; font-size: 0.85rem; color: var(--grey-muted);
+      font-family: var(--mono); line-height: 1.6; margin-bottom: 20px;
+      transition: all 0.3s;
     }
+    
     .mockup-result {
-      background: rgba(177,178,255,0.08); border: 1px solid rgba(177,178,255,0.2);
-      border-radius: 12px; padding: 14px;
+      background: rgba(177, 178, 255, 0.04); border: 1px solid rgba(177, 178, 255, 0.15);
+      border-radius: 12px; padding: 18px; transition: all 0.3s;
     }
-    .mockup-result-label { font-size: 0.65rem; color: var(--purple-light); text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 8px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; }
-    .mockup-result-text { font-size: 0.78rem; color: #ccc; line-height: 1.65; }
-    .mockup-btn-row { display: flex; gap: 8px; margin-top: 14px; }
-    .mockup-btn { padding: 8px 16px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; cursor: default; }
-    .mockup-btn.outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
-    .mockup-btn.solid { background: #fff; color: #0a0a14; flex: 1; text-align: center; }
+    .mockup-result-label { font-size: 0.68rem; color: var(--blue-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 10px; font-family: var(--mono); display: flex; align-items: center; gap: 6px; }
+    .mockup-result-text { font-size: 0.83rem; color: rgba(238, 241, 255, 0.85); line-height: 1.7; font-family: var(--mono); min-height: 100px; }
+    
+    .mockup-btn-row { display: flex; gap: 10px; margin-top: 20px; }
+    .mockup-btn { padding: 10px 20px; border-radius: 10px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; user-select: none; }
+    .mockup-btn.outline { background: transparent; border: 1px solid var(--border); color: var(--grey-muted); }
+    .mockup-btn.outline:hover { border-color: var(--border-hover); color: var(--text-high); }
+    .mockup-btn.solid { background: #ffffff; color: #07070F; flex: 1; text-align: center; font-weight: 700; box-shadow: 0 4px 14px rgba(255,255,255,0.1); }
+    .mockup-btn.solid:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,255,255,0.2); }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(32px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     /* ─── Section headers ─── */
     .section-label {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--purple-light);
-      font-family: var(--mono); margin-bottom: 16px;
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--purple-primary);
+      font-family: var(--mono); margin-bottom: 20px;
     }
     .section-label::before {
-      content: ''; width: 20px; height: 1px; background: var(--purple-light);
+      content: ''; width: 24px; height: 1px; background: var(--purple-primary);
     }
     h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
-      line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 16px;
+      font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800;
+      line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 20px;
     }
-    h2 em { font-style: normal; color: var(--purple-light); }
-    .section-desc { font-size: 1.05rem; color: var(--text-muted); max-width: 560px; line-height: 1.8; }
+    h2 em { font-style: normal; color: var(--purple-primary); }
+    .section-desc { font-size: 1.1rem; color: var(--grey-muted); max-width: 600px; line-height: 1.8; margin-bottom: 12px; }
 
     /* ─── What is SpyHero ─── */
-    #what { background: linear-gradient(180deg, transparent, rgba(177,178,255,0.04), transparent); }
-    .what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 60px; }
-    .what-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+    #what { background: linear-gradient(180deg, transparent, rgba(177, 178, 255, 0.02), transparent); }
+    .what-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: center; margin-top: 64px; }
+    .what-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .stat-card {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 20px;
+      border-radius: 16px; padding: 24px; text-align: center;
+      transition: all 0.3s;
     }
-    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--purple-light); line-height: 1; margin-bottom: 4px; }
-    .stat-label { font-size: 0.8rem; color: var(--text-muted); }
-    .what-features { display: flex; flex-direction: column; gap: 14px; }
+    .stat-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateY(-2px); }
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--purple-primary); line-height: 1; margin-bottom: 8px; font-family: var(--mono); }
+    .stat-label { font-size: 0.85rem; color: var(--grey-muted); font-weight: 500; }
+    
+    .what-features { display: flex; flex-direction: column; gap: 16px; }
     .what-feature {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 20px 22px;
-      display: flex; gap: 16px; align-items: flex-start;
-      transition: border-color 0.2s, background 0.2s;
+      border-radius: 16px; padding: 24px;
+      display: flex; gap: 20px; align-items: flex-start;
+      transition: all 0.3s;
+      cursor: default;
     }
-    .what-feature:hover { border-color: rgba(177,178,255,0.3); background: var(--bg-card-hover); }
+    .what-feature:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
     .what-feature-icon {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: var(--purple-dim); border: 1px solid rgba(177,178,255,0.25);
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--purple-dim); border: 1px solid rgba(177, 178, 255, 0.2);
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .what-feature-icon svg { width: 18px; height: 18px; stroke: var(--purple-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .what-feature-text h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-    .what-feature-text p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .what-feature-icon svg { width: 20px; height: 20px; stroke: var(--purple-primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .what-feature-text h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+    .what-feature-text p { font-size: 0.88rem; color: rgba(210, 218, 255, 0.65); line-height: 1.6; }
 
     /* ─── How It Works ─── */
     #how { position: relative; }
-    .steps-container { margin-top: 64px; position: relative; }
+    .steps-container { margin-top: 80px; position: relative; display: flex; flex-direction: column; gap: 32px; }
     .steps-line {
-      position: absolute; left: 28px; top: 0; bottom: 0;
-      width: 1px; background: linear-gradient(to bottom, transparent, var(--purple) 20%, var(--purple) 80%, transparent);
+      position: absolute; left: 30px; top: 20px; bottom: 20px;
+      width: 1px; background: linear-gradient(to bottom, transparent, var(--purple-primary) 15%, var(--purple-primary) 85%, transparent);
     }
     .step {
-      display: flex; gap: 28px; margin-bottom: 40px; position: relative;
-      opacity: 0; transform: translateX(-20px); transition: opacity 0.5s, transform 0.5s;
+      display: flex; gap: 32px; position: relative;
+      opacity: 0; transform: translateX(-20px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .step.visible { opacity: 1; transform: translateX(0); }
     .step-num {
-      width: 56px; height: 56px; flex-shrink: 0;
-      border-radius: 50%; background: rgba(177,178,255,0.15);
-      border: 2px solid rgba(177,178,255,0.4);
+      width: 60px; height: 60px; flex-shrink: 0;
+      border-radius: 50%; background: var(--purple-dim);
+      border: 2px solid rgba(177, 178, 255, 0.4);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800; color: var(--purple-light);
+      font-size: 1.25rem; font-weight: 800; color: var(--purple-primary);
       font-family: var(--mono); position: relative; z-index: 1;
+      transition: all 0.3s;
     }
-    .step-content { padding-top: 10px; }
-    .step-content h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-    .step-content p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; max-width: 560px; }
+    .step:hover .step-num { background: var(--purple-primary); color: #07070F; box-shadow: 0 0 15px rgba(177, 178, 255, 0.4); }
+    .step-content { padding-top: 14px; }
+    .step-content h3 { font-size: 1.2rem; font-weight: 750; margin-bottom: 8px; }
+    .step-content p { font-size: 0.95rem; color: rgba(210, 218, 255, 0.7); line-height: 1.7; max-width: 640px; }
     .step-tag {
-      display: inline-block; background: var(--purple-dim); border: 1px solid rgba(177,178,255,0.25);
-      color: var(--purple-light); font-family: var(--mono); font-size: 0.7rem;
-      padding: 3px 10px; border-radius: 6px; margin-top: 8px; font-weight: 500;
+      display: inline-block; background: rgba(177, 178, 255, 0.05); border: 1px solid rgba(177, 178, 255, 0.15);
+      color: var(--blue-secondary); font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 6px; margin-top: 10px;
     }
 
     /* ─── Features ─── */
-    #features { background: linear-gradient(180deg, transparent, rgba(177,178,255,0.03), transparent); }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 60px; }
+    #features { background: linear-gradient(180deg, transparent, rgba(177, 178, 255, 0.02), transparent); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 64px; }
     .feat-card {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
-      padding: 28px; transition: all 0.25s; cursor: default;
+      padding: 32px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: default;
     }
-    .feat-card:hover { border-color: rgba(177,178,255,0.3); background: var(--bg-card-hover); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(177,178,255,0.1); }
+    .feat-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(177, 178, 255, 0.06); }
     .feat-icon {
-      width: 48px; height: 48px; border-radius: 14px;
-      background: var(--purple-dim); border: 1px solid rgba(177,178,255,0.3);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+      width: 52px; height: 52px; border-radius: 16px;
+      background: var(--purple-dim); border: 1px solid rgba(177, 178, 255, 0.25);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 22px;
     }
-    .feat-icon svg { width: 22px; height: 22px; stroke: var(--purple-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .feat-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
-    .feat-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
-    .feat-card.wide { grid-column: 1 / -1; }
+    .feat-icon svg { width: 22px; height: 22px; stroke: var(--purple-primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .feat-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+    .feat-card p { font-size: 0.9rem; color: rgba(210, 218, 255, 0.65); line-height: 1.7; }
 
-    /* ─── Modes table ─── */
-    .modes-section { margin-top: 60px; }
-    .modes-section h2 { margin-bottom: 12px; }
-    .modes-section .section-desc { margin-bottom: 36px; }
-    .modes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    /* ─── Modes ─── */
+    .modes-section { margin-top: 80px; }
+    .modes-section h2 { margin-bottom: 16px; }
+    .modes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 40px; }
     .mode-card {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
-      padding: 20px 22px; transition: all 0.2s; cursor: default;
+      padding: 24px; transition: all 0.25s; cursor: default;
     }
-    .mode-card:hover { border-color: rgba(177,178,255,0.3); background: var(--bg-card-hover); }
-    .mode-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-    .mode-name { font-weight: 700; font-size: 0.95rem; }
+    .mode-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+    .mode-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .mode-name { font-weight: 700; font-size: 1rem; color: #fff; }
     .mode-badge {
-      font-size: 0.65rem; font-family: var(--mono); font-weight: 600;
-      background: var(--purple-dim); border: 1px solid rgba(177,178,255,0.25);
-      color: var(--purple-light); padding: 2px 8px; border-radius: 6px; text-transform: uppercase;
+      font-size: 0.65rem; font-family: var(--mono); font-weight: 700;
+      background: rgba(177,178,255,0.06); border: 1px solid rgba(177,178,255,0.2);
+      color: var(--purple-primary); padding: 3px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.05em;
     }
-    .mode-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .mode-desc { font-size: 0.85rem; color: rgba(210, 218, 255, 0.6); line-height: 1.6; }
 
     /* ─── Providers ─── */
-    #providers { background: linear-gradient(180deg, transparent, rgba(71,191,255,0.03), transparent); }
-    .providers-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin-top: 60px; }
-    .providers-grid { display: flex; flex-direction: column; gap: 12px; }
+    #providers { background: linear-gradient(180deg, transparent, rgba(170,196,255,0.02), transparent); }
+    .providers-intro { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; margin-top: 64px; }
+    .providers-grid { display: flex; flex-direction: column; gap: 16px; }
     .provider-card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 18px 20px; display: flex; gap: 16px; align-items: flex-start;
-      transition: all 0.2s; cursor: default;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+      padding: 24px; display: flex; gap: 20px; align-items: flex-start;
+      transition: all 0.3s; cursor: default;
     }
-    .provider-card:hover { border-color: rgba(177,178,255,0.3); background: var(--bg-card-hover); }
-    .provider-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-    .provider-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-    .provider-models { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .model-tag { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-dim); font-family: var(--mono); font-size: 0.67rem; padding: 2px 8px; border-radius: 6px; }
+    .provider-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+    .provider-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; box-shadow: 0 0 10px currentColor; }
+    .provider-info h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .provider-models { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .model-tag { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--grey-muted); font-family: var(--mono); font-size: 0.7rem; padding: 3px 10px; border-radius: 6px; font-weight: 500; }
+    
     .byok-card {
-      background: var(--purple-dim); border: 1px solid rgba(177,178,255,0.3);
-      border-radius: 20px; padding: 32px;
+      background: linear-gradient(135deg, rgba(177, 178, 255, 0.06), rgba(170, 196, 255, 0.02)); border: 1px solid rgba(177, 178, 255, 0.15);
+      border-radius: 24px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
-    .byok-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; }
-    .byok-card p { font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 20px; }
+    .byok-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 16px; color: var(--purple-primary); }
+    .byok-card p { font-size: 0.95rem; color: rgba(210, 218, 255, 0.7); line-height: 1.7; margin-bottom: 28px; }
     .byok-points { list-style: none; }
     .byok-points li {
-      display: flex; gap: 10px; align-items: flex-start;
-      font-size: 0.875rem; color: rgba(255,255,255,0.8); margin-bottom: 10px;
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: 0.9rem; color: rgba(238, 241, 255, 0.8); margin-bottom: 14px;
     }
-    .byok-points li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--purple-light); flex-shrink: 0; margin-top: 8px; }
+    .byok-points li::before { content: '✦'; color: var(--purple-primary); font-size: 0.95rem; line-height: 1; flex-shrink: 0; margin-top: 3px; }
 
     /* ─── Architecture ─── */
-    #architecture { }
-    .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 60px; align-items: start; }
+    .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 64px; align-items: start; }
     .arch-diagram {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
-      padding: 28px; font-family: var(--mono); font-size: 0.78rem;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+      padding: 32px; font-family: var(--mono); font-size: 0.8rem;
     }
     .arch-layer {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px 18px; margin-bottom: 8px;
+      background: rgba(177,178,255,0.02); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px; margin-bottom: 10px;
     }
     .arch-layer:last-child { margin-bottom: 0; }
-    .arch-layer-label { font-size: 0.65rem; color: var(--purple-light); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 8px; }
-    .arch-items { display: flex; flex-wrap: wrap; gap: 6px; }
-    .arch-item { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-size: 0.7rem; color: var(--text-muted); }
-    .arch-arrow { text-align: center; padding: 4px; color: var(--purple-light); font-size: 0.8rem; }
-    .privacy-list { display: flex; flex-direction: column; gap: 14px; }
+    .arch-layer-label { font-size: 0.68rem; color: var(--purple-primary); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; margin-bottom: 12px; }
+    .arch-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .arch-item { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 4px 12px; font-size: 0.72rem; color: var(--grey-muted); font-weight: 500; }
+    .arch-arrow { text-align: center; padding: 8px; color: var(--purple-primary); font-size: 0.9rem; font-weight: 600; }
+    
+    .privacy-list { display: flex; flex-direction: column; gap: 16px; }
     .privacy-item {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 18px 20px; display: flex; gap: 16px; align-items: flex-start;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 22px 24px; display: flex; gap: 20px; align-items: flex-start;
     }
     .privacy-item-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(71,255,150,0.08); border: 1px solid rgba(71,255,150,0.2);
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(74, 250, 150, 0.05); border: 1px solid rgba(74, 250, 150, 0.2);
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .privacy-item-icon svg { width: 16px; height: 16px; stroke: #4afa96; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .privacy-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
-    .privacy-item p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .privacy-item-icon svg { width: 18px; height: 18px; stroke: #4afa96; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .privacy-item h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+    .privacy-item p { font-size: 0.88rem; color: rgba(210, 218, 255, 0.6); line-height: 1.6; }
 
     /* ─── Shortcuts ─── */
-    #shortcuts { background: linear-gradient(180deg, transparent, rgba(177,178,255,0.04), transparent); }
-    .shortcuts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 48px; }
+    #shortcuts { background: linear-gradient(180deg, transparent, rgba(177, 178, 255, 0.02), transparent); }
+    .shortcuts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 64px; }
     .shortcut-card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
-      padding: 24px; display: flex; flex-direction: column; gap: 10px;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 28px; display: flex; flex-direction: column; gap: 14px;
+      transition: all 0.3s;
     }
+    .shortcut-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
     .shortcut-keys { display: flex; gap: 6px; align-items: center; }
     kbd {
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-      border-bottom: 2px solid rgba(255,255,255,0.25); border-radius: 7px;
-      padding: 5px 10px; font-family: var(--mono); font-size: 0.8rem; color: var(--text);
-      font-weight: 600;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-bottom: 3px solid rgba(255,255,255,0.22); border-radius: 8px;
+      padding: 6px 12px; font-family: var(--mono); font-size: 0.8rem; color: var(--text-high);
+      font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .shortcut-plus { color: var(--text-dim); font-size: 0.8rem; }
-    .shortcut-card h4 { font-size: 0.95rem; font-weight: 700; }
-    .shortcut-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+    .shortcut-plus { color: rgba(255,255,255,0.25); font-size: 0.8rem; font-weight: 500; }
+    .shortcut-card h4 { font-size: 1.05rem; font-weight: 700; color: #fff; }
+    .shortcut-card p { font-size: 0.88rem; color: var(--grey-muted); line-height: 1.6; }
 
     /* ─── Download / CTA ─── */
     #download { text-align: center; }
     .cta-box {
-      background: linear-gradient(135deg, rgba(177,178,255,0.12), rgba(170,196,255,0.08));
-      border: 1px solid rgba(177,178,255,0.25); border-radius: 28px;
+      background: linear-gradient(135deg, rgba(177, 178, 255, 0.06), rgba(170, 196, 255, 0.02));
+      border: 1px solid rgba(177, 178, 255, 0.15); border-radius: 32px;
       padding: 80px 40px; position: relative; overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     }
     .cta-box::before {
-      content: ''; position: absolute; inset: 0; border-radius: 28px;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      content: ''; position: absolute; inset: 0; border-radius: 32px;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
     }
-    .cta-box h2 { margin-bottom: 16px; font-size: clamp(2rem,4vw,3rem); }
-    .cta-box p { color: var(--text-muted); max-width: 500px; margin: 0 auto 40px; font-size: 1rem; line-height: 1.8; }
+    .cta-box h2 { margin-bottom: 20px; font-size: clamp(2rem, 5vw, 3.2rem); }
+    .cta-box p { color: rgba(210, 218, 255, 0.7); max-width: 540px; margin: 0 auto 44px; font-size: 1.05rem; line-height: 1.8; }
+    
     .install-steps {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-      max-width: 700px; margin: 0 auto 44px; text-align: left;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+      max-width: 800px; margin: 0 auto 48px; text-align: left;
     }
     .install-step {
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 14px; padding: 18px;
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+      border-radius: 18px; padding: 24px; transition: all 0.3s;
     }
-    .install-step-num { font-size: 1.4rem; font-weight: 800; color: var(--purple-light); line-height: 1; margin-bottom: 8px; font-family: var(--mono); }
-    .install-step h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
-    .install-step p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+    .install-step:hover { border-color: var(--border-hover); background: rgba(255,255,255,0.04); }
+    .install-step-num { font-size: 1.5rem; font-weight: 800; color: var(--purple-primary); line-height: 1; margin-bottom: 12px; font-family: var(--mono); }
+    .install-step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .install-step p { font-size: 0.85rem; color: rgba(210, 218, 255, 0.6); line-height: 1.6; }
+    
     .cta-note {
-      margin-top: 20px; font-size: 0.8rem; color: var(--text-dim);
+      margin-top: 24px; font-size: 0.85rem; color: rgba(210, 218, 255, 0.4);
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .cta-note svg { width: 14px; height: 14px; stroke: var(--text-dim); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .cta-note svg { width: 16px; height: 16px; stroke: rgba(210, 218, 255, 0.4); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ─── Footer ─── */
     footer {
-      border-top: 1px solid var(--border); padding: 40px 0;
-      text-align: center; color: var(--text-dim); font-size: 0.82rem;
+      border-top: 1px solid var(--border); padding: 50px 0;
+      text-align: center; color: rgba(210, 218, 255, 0.35); font-size: 0.85rem;
       position: relative; z-index: 1;
     }
-    footer a { color: var(--purple-light); text-decoration: none; }
-    footer .footer-logo { display: flex; align-items: center; gap: 8px; justify-content: center; margin-bottom: 12px; font-weight: 700; font-size: 1rem; color: var(--text-muted); }
-    footer .footer-logo svg { width: 20px; height: 20px; fill: var(--purple-light); }
+    footer a { color: var(--purple-primary); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    footer a:hover { color: #fff; text-decoration: underline; }
+    footer .footer-logo { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 16px; font-weight: 700; font-size: 1.1rem; color: var(--grey-muted); }
+    footer .footer-logo svg { width: 22px; height: 22px; fill: var(--purple-primary); }
+    footer p { margin-bottom: 4px; }
 
     /* ─── Responsive ─── */
-    @media (max-width: 768px) {
-      nav { width: calc(100% - 24px); }
-      .nav-links a:not(:last-child) { display: none; }
-      .what-grid, .providers-intro, .arch-grid { grid-template-columns: 1fr; }
+    @media (max-width: 992px) {
+      .what-grid, .providers-intro, .arch-grid { grid-template-columns: 1fr; gap: 48px; }
       .install-steps { grid-template-columns: 1fr; }
+    }
+    
+    @media (max-width: 768px) {
+      nav { width: calc(100% - 24px); padding: 0 16px; }
+      .nav-links a:not(:last-child) { display: none; }
       .steps-line { display: none; }
       .step { padding-left: 0; }
-      section { padding: 70px 0; }
+      .step-num { width: 48px; height: 48px; font-size: 1.1rem; }
+      section { padding: 85px 0; }
+      .byok-card { padding: 24px; }
+      .cta-box { padding: 50px 20px; }
     }
 
     /* ─── Scroll reveal ─── */
-    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.6s, transform 0.6s; }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     @media (prefers-reduced-motion: reduce) {
@@ -473,7 +510,7 @@
 </head>
 <body>
 
-  <!-- Ambient background -->
+  <!-- Ambient background light -->
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
@@ -534,7 +571,7 @@
         <span class="pill" role="listitem">5 AI Providers</span>
       </div>
 
-      <!-- UI Mockup -->
+      <!-- Interactive UI Mockup -->
       <div class="hero-mockup" aria-label="SpyHero app interface preview" role="img">
         <div class="mockup-bar">
           <div class="mockup-dot" aria-hidden="true"></div>
@@ -549,32 +586,36 @@
               SPYHERO
             </div>
             <div style="display:flex;align-items:center;gap:6px;">
-              <div class="mockup-tag">Utility</div>
+              <div class="mockup-tag">Active Utility</div>
             </div>
           </div>
-          <div class="mockup-modes" role="tablist" aria-label="Enhancement modes">
-            <div class="mockup-mode active" role="tab" aria-selected="true">Developer</div>
-            <div class="mockup-mode" role="tab" aria-selected="false">General</div>
-            <div class="mockup-mode" role="tab" aria-selected="false">Concise</div>
-            <div class="mockup-mode" role="tab" aria-selected="false">Detailed</div>
-            <div class="mockup-mode" role="tab" aria-selected="false">Creative</div>
+          
+          <div class="mockup-modes" role="tablist" aria-label="Interactive Enhancement Modes">
+            <div class="mockup-mode active" role="tab" data-mode="developer" aria-selected="true">Developer</div>
+            <div class="mockup-mode" role="tab" data-mode="general" aria-selected="false">General</div>
+            <div class="mockup-mode" role="tab" data-mode="marketing" aria-selected="false">Marketing</div>
+            <div class="mockup-mode" role="tab" data-mode="concise" aria-selected="false">Concise</div>
+            <div class="mockup-mode" role="tab" data-mode="creative" aria-selected="false">Creative</div>
           </div>
-          <div class="mockup-textarea" aria-label="Original text input">
+          
+          <div class="mockup-textarea" id="mockup-input" aria-label="Original text input">
             write a login form with email and password validation and remember me checkbox
           </div>
+          
           <div class="mockup-result">
             <div class="mockup-result-label" aria-hidden="true">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              Optimized Prompt (developer)
+              Optimized Output (<span id="mockup-mode-label">developer</span>)
             </div>
-            <div class="mockup-result-text">
+            <div class="mockup-result-text" id="mockup-output">
               You are a senior frontend engineer. Build a secure, accessible login form using React and TypeScript with the following specifications: Email input with RFC 5322 validation, password input with toggle visibility, "Remember me" checkbox persisting session via localStorage, real-time inline error messages, loading state on submit, WCAG 2.1 AA compliance...
             </div>
           </div>
+          
           <div class="mockup-btn-row">
-            <div class="mockup-btn outline">Edit</div>
+            <div class="mockup-btn outline">Edit Input</div>
             <div class="mockup-btn outline">Re-run</div>
-            <div class="mockup-btn solid">Copy &amp; Done</div>
+            <div class="mockup-btn solid">Auto-Paste &amp; Dismiss</div>
           </div>
         </div>
       </div>
@@ -592,34 +633,32 @@
       </p>
 
       <div class="what-grid reveal">
-        <div>
-          <div class="what-features" role="list">
-            <div class="what-feature" role="listitem">
-              <div class="what-feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div class="what-feature-text">
-                <h3>Bring Your Own Key (BYOK)</h3>
-                <p>Your API keys are stored locally in <code style="font-family:var(--mono);font-size:0.8em;color:var(--purple-light);">%AppData%/SpyHero</code> — never uploaded, never shared. You pay your provider directly. SpyHero takes no cut.</p>
-              </div>
+        <div class="what-features" role="list">
+          <div class="what-feature" role="listitem">
+            <div class="what-feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
-            <div class="what-feature" role="listitem">
-              <div class="what-feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </div>
-              <div class="what-feature-text">
-                <h3>No Subscriptions, Ever</h3>
-                <p>SpyHero is completely free. There's no premium tier, no monthly fee, and no usage limits imposed by the app itself. Your only cost is what your AI provider charges.</p>
-              </div>
+            <div class="what-feature-text">
+              <h3>Bring Your Own Key (BYOK)</h3>
+              <p>Your API keys are stored locally in <code style="font-family:var(--mono);font-size:0.85em;color:var(--purple-primary);">%AppData%/SpyHero</code> — never uploaded, never shared. You pay your provider directly. SpyHero takes no cut.</p>
             </div>
-            <div class="what-feature" role="listitem">
-              <div class="what-feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              </div>
-              <div class="what-feature-text">
-                <h3>Silent Background Operation</h3>
-                <p>SpyHero lives in your system tray and runs quietly in the background. No taskbar clutter, no windows to manage — just instant access via your hotkey whenever you need it.</p>
-              </div>
+          </div>
+          <div class="what-feature" role="listitem">
+            <div class="what-feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="what-feature-text">
+              <h3>No Subscriptions, Ever</h3>
+              <p>SpyHero is completely free. There's no premium tier, no monthly fee, and no usage limits imposed by the app itself. Your only cost is what your AI provider charges.</p>
+            </div>
+          </div>
+          <div class="what-feature" role="listitem">
+            <div class="what-feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="what-feature-text">
+              <h3>Silent Background Operation</h3>
+              <p>SpyHero lives in your system tray and runs quietly in the background. No taskbar clutter, no windows to manage — just instant access via your hotkey whenever you need it.</p>
             </div>
           </div>
         </div>
@@ -643,8 +682,8 @@
               <div class="stat-label">Apps It Works With</div>
             </div>
           </div>
-          <div style="margin-top:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px;">
-            <div style="font-size:0.75rem;color:var(--purple-light);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">Compatible With Any App</div>
+          <div style="margin-top:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;">
+            <div style="font-size:0.75rem;color:var(--purple-primary);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px;font-weight:600;">Compatible With Any App</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
               <span class="pill">ChatGPT</span><span class="pill">VS Code</span><span class="pill">Outlook</span>
               <span class="pill">Notion</span><span class="pill">Google Docs</span><span class="pill">Slack</span>
@@ -741,7 +780,6 @@
       </p>
 
       <div class="features-grid reveal" role="list">
-
         <div class="feat-card" role="listitem">
           <div class="feat-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -789,10 +827,9 @@
           <h3>Prompt History</h3>
           <p>Every enhancement is <strong>saved locally</strong> (up to 20 entries) in browser storage. Access the History panel from the overlay header to browse, reload, or reuse any past original + enhanced prompt pair, along with the mode it was generated in.</p>
         </div>
-
       </div>
 
-      <!-- 8 Modes -->
+      <!-- 8 Modes Detail -->
       <div class="modes-section reveal" id="modes">
         <div class="section-label" aria-hidden="true">Enhancement Modes</div>
         <h2>8 Specialist Modes.<br /><em>One Tool.</em></h2>
@@ -873,12 +910,11 @@
 
       <div class="providers-intro reveal">
         <div class="providers-grid" role="list">
-
           <div class="provider-card" role="listitem">
-            <div class="provider-dot" style="background:#4285f4;" aria-hidden="true"></div>
+            <div class="provider-dot" style="background:#4285f4; color:#4285f4;" aria-hidden="true"></div>
             <div class="provider-info">
               <h4>Google Gemini</h4>
-              <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;">Google's latest multimodal AI family — fast, capable, affordable.</p>
+              <p style="font-size:0.85rem;color:var(--grey-muted);margin-bottom:8px;">Google's latest multimodal AI family — fast, capable, affordable.</p>
               <div class="provider-models" aria-label="Available models">
                 <span class="model-tag">gemini-1.5-flash</span>
                 <span class="model-tag">gemini-1.5-pro</span>
@@ -888,10 +924,10 @@
           </div>
 
           <div class="provider-card" role="listitem">
-            <div class="provider-dot" style="background:#10a37f;" aria-hidden="true"></div>
+            <div class="provider-dot" style="background:#10a37f; color:#10a37f;" aria-hidden="true"></div>
             <div class="provider-info">
               <h4>OpenAI</h4>
-              <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;">Industry-leading GPT models with powerful reasoning and instruction following.</p>
+              <p style="font-size:0.85rem;color:var(--grey-muted);margin-bottom:8px;">Industry-leading GPT models with powerful reasoning and instruction following.</p>
               <div class="provider-models" aria-label="Available models">
                 <span class="model-tag">gpt-4o</span>
                 <span class="model-tag">gpt-4o-mini</span>
@@ -902,10 +938,10 @@
           </div>
 
           <div class="provider-card" role="listitem">
-            <div class="provider-dot" style="background:#c97541;" aria-hidden="true"></div>
+            <div class="provider-dot" style="background:#c97541; color:#c97541;" aria-hidden="true"></div>
             <div class="provider-info">
               <h4>Anthropic Claude</h4>
-              <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;">Renowned for nuanced, thoughtful, and long-context outputs.</p>
+              <p style="font-size:0.85rem;color:var(--grey-muted);margin-bottom:8px;">Renowned for nuanced, thoughtful, and long-context outputs.</p>
               <div class="provider-models" aria-label="Available models">
                 <span class="model-tag">claude-3-5-sonnet</span>
                 <span class="model-tag">claude-3-5-haiku</span>
@@ -915,10 +951,10 @@
           </div>
 
           <div class="provider-card" role="listitem">
-            <div class="provider-dot" style="background:#f55036;" aria-hidden="true"></div>
+            <div class="provider-dot" style="background:#f55036; color:#f55036;" aria-hidden="true"></div>
             <div class="provider-info">
               <h4>Groq</h4>
-              <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;">Blazing-fast LPU inference — ideal for near-instant enhancements.</p>
+              <p style="font-size:0.85rem;color:var(--grey-muted);margin-bottom:8px;">Blazing-fast LPU inference — ideal for near-instant enhancements.</p>
               <div class="provider-models" aria-label="Available models">
                 <span class="model-tag">llama3-70b-8192</span>
                 <span class="model-tag">llama3-8b-8192</span>
@@ -928,10 +964,10 @@
           </div>
 
           <div class="provider-card" role="listitem">
-            <div class="provider-dot" style="background:#7c5cbf;" aria-hidden="true"></div>
+            <div class="provider-dot" style="background:#7c5cbf; color:#7c5cbf;" aria-hidden="true"></div>
             <div class="provider-info">
               <h4>OpenRouter</h4>
-              <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;">Access 100+ models from a single API — ultimate flexibility and model choice.</p>
+              <p style="font-size:0.85rem;color:var(--grey-muted);margin-bottom:8px;">Access 100+ models from a single API — ultimate flexibility and model choice.</p>
               <div class="provider-models" aria-label="Available models">
                 <span class="model-tag">gemini-2.5-flash</span>
                 <span class="model-tag">claude-3.5-sonnet</span>
@@ -940,7 +976,6 @@
               </div>
             </div>
           </div>
-
         </div>
 
         <div>
@@ -950,7 +985,7 @@
               Bring Your Own Key means you connect SpyHero directly to your chosen AI provider. There's no SpyHero middleman, no markup on API calls, and no third-party ever sees your data. You pay your provider's standard rate — often fractions of a cent per enhancement.
             </p>
             <ul class="byok-points" aria-label="BYOK benefits">
-              <li>API keys stored locally in <code style="font-family:var(--mono);font-size:0.8em;">%AppData%/SpyHero/settings.json</code></li>
+              <li>API keys stored locally in <code style="font-family:var(--mono);font-size:0.85em;color:var(--purple-primary);">%AppData%/SpyHero/settings.json</code></li>
               <li>Never transmitted to SpyHero servers (there are none)</li>
               <li>Your AI spend goes directly to your provider</li>
               <li>Switch providers in seconds — no re-setup needed</li>
@@ -975,7 +1010,7 @@
       <div class="arch-grid reveal">
         <div>
           <div class="arch-diagram" aria-label="SpyHero architecture diagram">
-            <div style="font-size:0.7rem;color:var(--purple-light);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:14px;">Architecture Overview</div>
+            <div style="font-size:0.75rem;color:var(--purple-primary);text-transform:uppercase;letter-spacing:0.12em;font-weight:700;margin-bottom:18px;font-family:var(--mono);">Architecture Overview</div>
 
             <div class="arch-layer">
               <div class="arch-layer-label">Electron Main Process</div>
@@ -1019,7 +1054,7 @@
               </div>
               <div>
                 <h4>No Backend Server</h4>
-                <p>SpyHero has no server, no cloud infrastructure, and no telemetry. All AI calls are made directly from the Electron renderer via <code style="font-family:var(--mono);font-size:0.8em;color:var(--purple-light);">fetch()</code> to your provider's API.</p>
+                <p>SpyHero has no server, no cloud infrastructure, and no telemetry. All AI calls are made directly from the Electron renderer via <code style="font-family:var(--mono);font-size:0.85em;color:var(--purple-primary);">fetch()</code> to your provider's API.</p>
               </div>
             </div>
             <div class="privacy-item" role="listitem">
@@ -1028,7 +1063,7 @@
               </div>
               <div>
                 <h4>Local Settings Storage</h4>
-                <p>All configuration — API keys, provider choice, shortcut, preferences — is stored in a plain JSON file at <code style="font-family:var(--mono);font-size:0.8em;color:var(--purple-light);">%AppData%/SpyHero/settings.json</code> on your machine only.</p>
+                <p>All configuration — API keys, provider choice, shortcut, preferences — is stored in a plain JSON file at <code style="font-family:var(--mono);font-size:0.85em;color:var(--purple-primary);">%AppData%/SpyHero/settings.json</code> on your machine only.</p>
               </div>
             </div>
             <div class="privacy-item" role="listitem">
@@ -1037,7 +1072,7 @@
               </div>
               <div>
                 <h4>Prompt Injection Protection</h4>
-                <p>User text is wrapped in <code style="font-family:var(--mono);font-size:0.8em;color:var(--purple-light);">&lt;prompt_to_enhance&gt;</code> XML tags with explicit instructions — preventing the AI from accidentally executing your prompt instead of refining it.</p>
+                <p>User text is wrapped in <code style="font-family:var(--mono);font-size:0.85em;color:var(--purple-primary);">&lt;prompt_to_enhance&gt;</code> XML tags with explicit instructions — preventing the AI from accidentally executing your prompt instead of refining it.</p>
               </div>
             </div>
             <div class="privacy-item" role="listitem">
@@ -1076,14 +1111,14 @@
           <div class="shortcut-keys" aria-label="Keyboard shortcut: Control Shift P">
             <kbd>Ctrl</kbd><span class="shortcut-plus">+</span><kbd>Shift</kbd><span class="shortcut-plus">+</span><kbd>P</kbd>
           </div>
-          <h4>Global Enhancement Trigger</h4>
+          <h4>Global Trigger Hotkey</h4>
           <p>Activates SpyHero from any app, any window. This is your master shortcut — fully customizable in Settings. Works system-wide even when SpyHero is in the background.</p>
         </div>
         <div class="shortcut-card" role="listitem">
           <div class="shortcut-keys" aria-label="Keyboard shortcut: Control Enter">
             <kbd>Ctrl</kbd><span class="shortcut-plus">+</span><kbd>Enter</kbd>
           </div>
-          <h4>Submit Prompt for Enhancement</h4>
+          <h4>Submit for Enhancement</h4>
           <p>When the manual input form is open, use <strong>Ctrl+Enter</strong> to instantly trigger AI enhancement on your typed or pasted text — without reaching for the mouse.</p>
         </div>
         <div class="shortcut-card" role="listitem">
@@ -1109,7 +1144,7 @@
           <div class="install-step" role="listitem">
             <div class="install-step-num" aria-hidden="true">01</div>
             <h4>Download the Installer</h4>
-            <p>Get <strong>SpyHero Setup 1.0.0.exe</strong> and run it. The standard Windows wizard will guide you through installation.</p>
+            <p>Get <strong>SpyHero Setup 1.0.0.zip</strong> and unpack it. The standard Windows wizard will guide you through installation.</p>
           </div>
           <div class="install-step" role="listitem">
             <div class="install-step-num" aria-hidden="true">02</div>
@@ -1126,7 +1161,7 @@
         <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
           <a href="https://github.com/Enggmakes/Spyhero/releases/download/V1.0.0/SpyHero_Setup_1.0.0.zip" id="download-btn" class="btn-primary" role="button" aria-label="Download SpyHero Setup for Windows">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download SpyHero — Free
+            Download SpyHero — Free ZIP
           </a>
           <a href="#how" class="btn-secondary" role="button">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -1155,6 +1190,65 @@
   </footer>
 
   <script>
+    // Mockup Interactivity Data
+    const mockupData = {
+      developer: {
+        input: "write a login form with email and password validation and remember me checkbox",
+        output: "You are a senior frontend engineer. Build a secure, accessible login form using React and TypeScript with the following specifications: Email input with RFC 5322 validation, password input with toggle visibility, 'Remember me' checkbox persisting session via localStorage, real-time inline error messages, loading state on submit, WCAG 2.1 AA compliance..."
+      },
+      general: {
+        input: "how do I grow my instagram followers",
+        output: "Act as an expert social media growth strategist. Develop a comprehensive, organic strategy to grow followers in 2026. Focus on: core target audience identification, content pillars (High-yield Reels vs Educational Carousels), optimal posting rhythm, keyword SEO for bio and captions, active community engagement tactics, and detailed analytics tracking. Structure into 5 actionable phases with timelines."
+      },
+      marketing: {
+        input: "write email copy for new shoes product launch",
+        output: "Act as an elite direct-response copywriter. Write a highly persuasive, conversion-focused 3-part email sequence for launching 'AeroCloud' eco-friendly running shoes. The sequence must include: (1) An irresistible teaser hook with a pain point resolver, (2) The unique product value proposition and sustainable materials highlight, (3) A scarcity/urgency call-to-action for early-bird priority discounts."
+      },
+      concise: {
+        input: "explain quantum computing in detail but keep it brief and without math",
+        output: "Explain the absolute foundations of quantum computing (superposition, entanglement, and qubits) using a simple spinning coin analogy. Contrast it directly with classical 0-or-1 binary computing, describe its top future applications in cryptography and molecular simulation, and explain its current decoherence physical limitations — entirely without math, condensed into a single high-impact paragraph."
+      },
+      creative: {
+        input: "describe a futuristic neon city at night",
+        output: "Paint a vivid, cinematic sensory landscape of Neo-Shibuya at midnight in 2088. Detail the intense visual contrast between skyscraper-sized holographic advertisements and dark, wet alleyways. Emphasize the scent of ozone and synthetic noodle shops, the deep ambient hum of hovercars cutting through the mist, and the multi-colored neon reflections dancing off the cybernetic visors of passersby."
+      }
+    };
+
+    // Tab Switching Logic
+    const tabs = document.querySelectorAll('.mockup-mode');
+    const inputArea = document.getElementById('mockup-input');
+    const outputArea = document.getElementById('mockup-output');
+    const modeLabel = document.getElementById('mockup-mode-label');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        
+        // Add active class
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        
+        const mode = tab.getAttribute('data-mode');
+        
+        // Fade transition effect
+        inputArea.style.opacity = 0;
+        outputArea.style.opacity = 0;
+        
+        setTimeout(() => {
+          inputArea.textContent = mockupData[mode].input;
+          outputArea.textContent = mockupData[mode].output;
+          modeLabel.textContent = mode;
+          
+          inputArea.style.opacity = 1;
+          outputArea.style.opacity = 1;
+        }, 150);
+      });
+    });
+
     // Intersection Observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1162,7 +1256,7 @@
           entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.08 });
 
     document.querySelectorAll('.reveal, .step').forEach(el => observer.observe(el));
 
@@ -1173,18 +1267,18 @@
     window.addEventListener('scroll', () => {
       let current = '';
       sections.forEach(section => {
-        if (window.scrollY >= section.offsetTop - 100) {
+        if (window.scrollY >= section.offsetTop - 120) {
           current = section.getAttribute('id') || '';
         }
       });
       navLinks.forEach(link => {
-        link.style.color = link.getAttribute('href') === `#${current}` ? 'var(--purple-light)' : '';
+        link.style.color = link.getAttribute('href') === `#${current}` ? 'var(--purple-primary)' : '';
       });
     }, { passive: true });
 
     // Stagger step animations
     document.querySelectorAll('.step').forEach((step, i) => {
-      step.style.transitionDelay = `${i * 0.08}s`;
+      step.style.transitionDelay = `${i * 0.06}s`;
     });
   </script>
 </body>
