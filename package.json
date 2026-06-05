@@ -1,7 +1,7 @@
 {
-  "name": "spyhero",
-  "description": "SpyHero — AI Prompt Enhancer",
-  "author": "SpyHero",
+  "name": "prompt-savvy",
+  "description": "Prompt Savvy — AI Prompt Enhancer",
+  "author": "Prompt Savvy",
   "private": true,
   "version": "1.0.0",
   "type": "commonjs",
@@ -16,8 +16,8 @@
     "electron:portable": "npm run build && electron-builder --win portable"
   },
   "build": {
-    "appId": "com.spyhero.app",
-    "productName": "SpyHero",
+    "appId": "com.promptsavvy.app",
+    "productName": "Prompt Savvy",
     "compression": "maximum",
     "directories": {
       "output": "dist-electron"
@@ -31,10 +31,10 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "SpyHero",
+      "shortcutName": "Prompt Savvy",
       "installerIcon": "electron/icon.ico",
       "uninstallerIcon": "electron/icon.ico",
-      "uninstallDisplayName": "SpyHero",
+      "uninstallDisplayName": "Prompt Savvy",
       "runAfterFinish": true
     },
     "files": [

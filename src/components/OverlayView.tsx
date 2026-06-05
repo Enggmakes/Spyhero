@@ -38,7 +38,7 @@ export default function OverlayView() {
 
     // 2. Load recent prompts from localStorage
     try {
-      const historyData = localStorage.getItem('spyhero_history');
+      const historyData = localStorage.getItem('promptsavvy_history');
       if (historyData) {
         setRecentPrompts(JSON.parse(historyData));
       }
@@ -114,7 +114,7 @@ export default function OverlayView() {
       };
       const updatedHistory = [newHistoryItem, ...recentPrompts.slice(0, 19)];
       setRecentPrompts(updatedHistory);
-      localStorage.setItem('spyhero_history', JSON.stringify(updatedHistory));
+      localStorage.setItem('promptsavvy_history', JSON.stringify(updatedHistory));
 
     } catch (error: any) {
       console.error(error);
@@ -176,7 +176,7 @@ export default function OverlayView() {
               <Zap className="w-3.5 h-3.5 text-neutral-400" />
             </div>
             <span className="font-semibold text-sm tracking-wide bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-              SPYHERO
+              PROMPT SAVVY
             </span>
             <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-neutral-400">
               Utility

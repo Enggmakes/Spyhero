@@ -64,7 +64,7 @@ export default function SplashView() {
         {/* App name */}
         <div className="flex flex-col items-center gap-1">
           <h1 className="text-2xl font-bold tracking-[0.15em] bg-gradient-to-b from-neutral-100 to-neutral-400 bg-clip-text text-transparent uppercase">
-            SpyHero
+            Prompt Savvy
           </h1>
           <p className="text-[11px] font-mono text-neutral-600 tracking-widest uppercase">
             AI Prompt Enhancer

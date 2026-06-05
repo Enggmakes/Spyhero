@@ -149,7 +149,7 @@ export async function enhancePrompt(
         systemPrompt,
         promptText,
         temp,
-        { 'HTTP-Referer': 'https://github.com/spyhero/spyhero' }
+        { 'HTTP-Referer': 'https://github.com/Enggmakes/Spyhero' }
       );
 
     case 'anthropic':

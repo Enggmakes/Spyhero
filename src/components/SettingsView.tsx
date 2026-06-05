@@ -109,7 +109,7 @@ export default function SettingsView() {
 
   const clearHistory = () => {
     if (confirm('Are you sure you want to clear recent prompt history?')) {
-      localStorage.removeItem('spyhero_history');
+      localStorage.removeItem('promptsavvy_history');
       alert('Prompt history has been successfully cleared!');
     }
   };
@@ -181,7 +181,7 @@ export default function SettingsView() {
               <Key className="w-4 h-4 text-neutral-300" />
             </div>
             <div>
-              <h1 className="text-base font-bold tracking-wide">SpyHero Configurations</h1>
+              <h1 className="text-base font-bold tracking-wide">Prompt Savvy Configurations</h1>
               <p className="text-[11px] text-neutral-500 mt-0.5">Manage credentials, keys, models, and background behaviors</p>
             </div>
           </div>

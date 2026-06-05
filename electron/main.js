@@ -102,12 +102,12 @@ function updateTrayMenu() {
   if (!tray) return;
   const shortcutDisplay = formatShortcutForDisplay(settings.shortcut);
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'SpyHero - Prompt Enhancer', enabled: false },
+    { label: 'Prompt Savvy - Prompt Enhancer', enabled: false },
     { type: 'separator' },
     { label: `Enhance Selected Text (${shortcutDisplay})`, click: () => triggerEnhanceFlow() },
     { label: 'Settings...', click: () => openSettingsWindow() },
     { type: 'separator' },
-    { label: 'Quit SpyHero', click: () => app.quit() }
+    { label: 'Quit Prompt Savvy', click: () => app.quit() }
   ]);
   tray.setContextMenu(contextMenu);
 }
@@ -128,7 +128,7 @@ function createTray() {
   tray = new Tray(icon.resize({ width: 16, height: 16 }));
   updateTrayMenu();
 
-  tray.setToolTip('SpyHero — AI Prompt Enhancer');
+  tray.setToolTip('Prompt Savvy — AI Prompt Enhancer');
   
   tray.on('double-click', () => {
     openSettingsWindow();
@@ -286,7 +286,7 @@ function openSettingsWindow() {
     width: 820,
     height: 620,
     show: false,
-    title: 'SpyHero Settings',
+    title: 'Prompt Savvy Settings',
     resizable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

@@ -5,7 +5,7 @@ import App from './App.tsx'
 
 // Graceful Web Browser Fallback (Mock API) if running outside of Electron
 if (typeof window !== 'undefined' && !window.api) {
-  console.warn("⚠️ SpyHero: running in browser demo mode. Electron APIs are mocked.");
+  console.warn("⚠️ Prompt Savvy: running in browser demo mode. Electron APIs are mocked.");
   
   const defaultSettings = {
     provider: 'gemini',
@@ -25,7 +25,7 @@ if (typeof window !== 'undefined' && !window.api) {
 
   const getLocalSettings = () => {
     try {
-      const stored = localStorage.getItem('spyhero_mock_settings');
+      const stored = localStorage.getItem('promptsavvy_mock_settings');
       return stored ? JSON.parse(stored) : defaultSettings;
     } catch {
       return defaultSettings;
@@ -34,7 +34,7 @@ if (typeof window !== 'undefined' && !window.api) {
 
   const saveLocalSettings = (data: any) => {
     try {
-      localStorage.setItem('spyhero_mock_settings', JSON.stringify(data));
+      localStorage.setItem('promptsavvy_mock_settings', JSON.stringify(data));
     } catch (e) {
       console.error(e);
     }
@@ -80,7 +80,7 @@ if (typeof window !== 'undefined' && !window.api) {
       // Expose a helper to let the user simulate highlighting text easily in their browser console!
       if (channel === 'enhance-text') {
         console.log(
-          "%c🦸 SpyHero Browser Demo Mode Active!", 
+          "%c✨ Prompt Savvy Browser Demo Mode Active!", 
           "color: #a96cff; font-weight: bold; font-size: 14px;"
         );
         console.log(
