@@ -1,0 +1,8 @@
+# robots.txt for https://promptsavvy.vercel.app/
+# Allow all crawlers full access
+
+User-agent: *
+Allow: /
+
+# Point crawlers to the sitemap
+Sitemap: https://promptsavvy.vercel.app/sitemap.xml
